@@ -8,7 +8,7 @@
         /* Estilo geral da página */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #a10036; /* Um fundo rosa */
+            background: linear-gradient(to bottom, #4a001f, #1a000a);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,149 +16,205 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            overflow: hidden; /* Esconde qualquer elemento que saia da tela */
         }
+
+        /* Container para a animação de fundo */
+        #background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* NOVO: Estilo para os EMOJIS flutuantes */
+        .floating-emoji {
+            position: absolute;
+            bottom: -50px; /* Começa fora da tela */
+            animation: floatUp 10s linear infinite;
+            user-select: none; /* Impede que o usuário selecione o emoji */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Animação dos emojis (sem a rotação do coração) */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+
 
         /* Título principal */
         h1 {
-            position: absolute;
-            top: 20px;
+            position: relative;
+            z-index: 1;
             color: #ece7e9;
             font-size: 2.5rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
         /* Container que segura todas as cartas */
         .card-container {
+            position: relative;
+            z-index: 1;
             display: flex;
-            flex-wrap: wrap; /* Permite que as cartas quebrem para a próxima linha */
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 25px; /* Espaçamento entre as cartas */
-            perspective: 1200px; /* Efeito 3D para a animação de virar */
-            padding-top: 80px; /* Espaço para o título não sobrepor as cartas */
+            gap: 25px;
+            perspective: 1200px;
+            padding-top: 20px; 
         }
 
-        /* Estilo individual de cada carta (o container da animação) */
+        /* Estilo individual de cada carta */
         .card {
             width: 220px;
             height: 320px;
             position: relative;
             cursor: pointer;
-            transform-style: preserve-3d; /* Mantém o efeito 3D durante a transformação */
+            transform-style: preserve-3d;
             transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 15px;
             box-shadow: 0 6px 12px rgba(0,0,0,0.25);
         }
 
-        /* Adiciona a rotação quando a classe 'is-flipped' é aplicada via JavaScript */
         .card.is-flipped {
             transform: rotateY(180deg);
         }
 
-        /* Estilo para as duas faces da carta (frente e verso) */
+        /* Estilo para as duas faces da carta */
         .card-face {
             position: absolute;
             width: 100%;
             height: 100%;
-            -webkit-backface-visibility: hidden; /* Safari */
-            backface-visibility: hidden; /* Esconde o lado de trás do elemento */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
             border-radius: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow: hidden; /* Garante que nada saia dos cantos arredondados */
+            overflow: hidden;
         }
 
-        /* A frente da carta, com a imagem de fundo */
+        /* A frente da carta */
         .card-front {
             background-image: url('Carta do amor.webp');
-            background-size: cover; /* Faz a imagem cobrir toda a área */
+            background-size: cover;
             background-position: center;
-            background-color: #fff; /* Cor de fallback caso a imagem não carregue */
+            background-color: #fff;
             border: 2px solid #fff;
         }
 
-        /* O verso da carta, que revela a frase */
+        /* O verso da carta */
         .card-back {
             background-color: #ffffff;
-            color: #ffffff; /* Cor do texto */
-            transform: rotateY(180deg); /* Começa virado para trás */
+            color: #c2185b;
+            transform: rotateY(180deg);
             padding: 20px;
             font-size: 1.2em;
             font-weight: 500;
-            box-sizing: border-box; /* Garante que o padding não altere o tamanho final */
-            color: #c2185b;
+            box-sizing: border-box;
             border: 2px solid #f50b0b;
         }
     </style>
 </head>
 <body>
+    <div id="background-animation"></div>
 
-    <h1>Clique em uma carta para revelar uma mensagem</h1>
-
-    <!-- Este container será preenchido com as cartas pelo JavaScript -->
-    <div id="card-container" class="card-container"></div>
-
+    <main>
+        <h1>Clique em uma carta para revelar uma mensagem</h1>
+        <div id="card-container" class="card-container"></div>
+    </main>
+    
     <script>
-        // --- LISTA DE FRASES ---
-        // Adicione, remova ou edite as frases aqui dentro das aspas.
-        // Cada frase deve ser separada por uma vírgula.
         const frasesDeAmor = [
-            "Beije delicadamente no rosto todo, deixando a bolca por ultimo.",
+            "Beije delicadamente no rosto todo, deixando a boca por ultimo.",
             "Dê mordidas de leve, e continue barriga acima.",
             "Chupe um cubo de gelo e faça sexo oral.",
             "Masturbe-se olhando para o seu amor.",
-            "Beije na boca e induza uma mastubação.",
+            "Beije na boca e induza uma masturbação.",
             "Faça uma massagem sensual no seu corpo.",
-            "De uma surra como a sua buceta / pênis.",
+            "Dê uma surra com a sua buceta / pênis.",
             "Transforme o seu Mo em Kiwi.",
             "Esfrega o pênis na vagina.",
-            "Masturbe com oleo de massagem.",
+            "Masturbe com óleo de massagem.",
             "Beije dos pés a cabeça, subindo lentamente.",
-            "Coloque uma musica romantica que os dois gostem para criar um clima romantico.",
+            "Coloque uma musica romântica que os dois gostem para criar um clima romântico.",
             "Amarre a venda nos olhos dele(a).",
             "Chupe os dedos da mão dele ou dela um por um.",
             "Cheire o cangote dele(a)."
         ];
 
-        // Função para criar e exibir as cartas na tela
+        function embaralhar(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
         function criarCartas() {
             const container = document.getElementById('card-container');
+            embaralhar(frasesDeAmor);
 
-            // Para cada frase na nossa lista, criamos uma estrutura de carta
             frasesDeAmor.forEach(frase => {
-                // 1. Cria o elemento principal da carta
                 const card = document.createElement('div');
                 card.classList.add('card');
-
-                // 2. Cria a face da frente (com a imagem)
                 const cardFront = document.createElement('div');
                 cardFront.classList.add('card-face', 'card-front');
-
-                // 3. Cria a face de trás (com a frase)
                 const cardBack = document.createElement('div');
                 cardBack.classList.add('card-face', 'card-back');
-                
                 const texto = document.createElement('p');
                 texto.textContent = frase;
                 cardBack.appendChild(texto);
-
-                // 4. Adiciona as duas faces à carta
                 card.appendChild(cardFront);
                 card.appendChild(cardBack);
-
-                // 5. Adiciona o evento de clique para virar a carta
                 card.addEventListener('click', () => {
                     card.classList.toggle('is-flipped');
                 });
-
-                // 6. Adiciona a carta completa ao container na página
                 container.appendChild(card);
             });
         }
 
-        // Chama a função para criar as cartas quando a página carregar
-        document.addEventListener('DOMContentLoaded', criarCartas);
+        /**
+         * NOVO: Função para criar os EMOJIS da animação de fundo
+         */
+        function criarEmojisFlutuantes() {
+            const container = document.getElementById('background-animation');
+            const numeroDeEmojis = 40; // Ajuste para mais ou menos emojis
+            const emojis = ['😇', '😈']; // Lista de emojis para usar
+
+            for (let i = 0; i < numeroDeEmojis; i++) {
+                const emojiEl = document.createElement('div');
+                emojiEl.classList.add('floating-emoji');
+                
+                // Escolhe um emoji aleatório da lista
+                emojiEl.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Posição horizontal, duração e atraso aleatórios
+                emojiEl.style.left = `${Math.random() * 100}vw`;
+                emojiEl.style.animationDuration = `${Math.random() * 7 + 8}s`; // Duração entre 8s e 15s
+                emojiEl.style.animationDelay = `${Math.random() * 5}s`; // Atraso de até 5s
+                
+                // Tamanho aleatório
+                emojiEl.style.fontSize = `${Math.random() * 20 + 15}px`; // Tamanho entre 15px e 35px
+                
+                container.appendChild(emojiEl);
+            }
+        }
+
+        // Chama as funções quando a página carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            criarCartas();
+            criarEmojisFlutuantes(); // Chama a nova função dos emojis
+        });
     </script>
 
 </body>
